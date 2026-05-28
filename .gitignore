@@ -1,0 +1,12 @@
+.venv/
+venv/
+env/
+data/01_bronze/*
+!data/01_bronze/.gitkeep
+data/02_silver/*
+!data/02_silver/.gitkeep
+data/03_gold/*
+!data/03_gold/.gitkeep
+.idea/
+__pycache__/
+*.pyc
