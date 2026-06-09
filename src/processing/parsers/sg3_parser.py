@@ -1,0 +1,56 @@
+import pandas as pd
+from datetime import datetime
+
+def parse_sg3(bronze_filepath: str) -> pd.DataFrame:
+
+    # 1. Read the excel file
+    df = pd.read_excel(bronze_filepath)
+
+    df.columns = [str(col).strip().lower().replace(' ', '_') for col in df.columns]
+
+    column_mapping = {
+        'colaborador': 'employee_name',
+        'documento': 'document_name',
+        'competência': 'due_date'
+    }
+    df_clean = df.rename(columns=column_mapping)
+
+    if 'document_name' in df_clean.columns:
+        df_clean = df_clean.dropna(subset=['document_name'])
+
+    standard_columns = ['employee_name', 'due_date', 'document_code', 'document_name']
+    for col in standard_columns:
+        if col not in df_clean.columns:
+            df_clean[col] = None
+
+    df_final = df_clean[standard_columns].copy()
+
+    df_final['source_system'] = 'sg3'
+    df_final['ingestion_date'] = datetime.now()
+
+    print(f"Success: {len(df_final)} SG3 records cleaned.")
+    return df_final
+
+
+if __name__ == '__main__':
+    import os
+
+    # raw file path
+    raw_file = r'C:\Users\TI Recicla\PycharmProjects\third-party-docs-management\data\01_bronze\sg3\relatorio_de_documentos_20260527_154649.xlsx'
+
+    # silver directory path
+    silver_dir = r'C:\Users\TI Recicla\PycharmProjects\third-party-docs-management\data\02_silver\sg3'
+    os.makedirs(silver_dir, exist_ok=True)
+
+    silver_file = os.path.join(silver_dir, 'sg3_cleaned.parquet')
+
+    print("Starting SG3 local test...")
+    df_result = parse_sg3(raw_file)
+
+
+    print("\nFirst 5 cleaned rows:")
+    print(df_result.head().to_string())
+
+    # save file
+    df_result.to_parquet(silver_file, index=False)
+    print(f"\nFile successfully saved to: {silver_file}")
