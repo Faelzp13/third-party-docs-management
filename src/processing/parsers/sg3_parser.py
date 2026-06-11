@@ -11,14 +11,26 @@ def parse_sg3(bronze_filepath: str) -> pd.DataFrame:
     column_mapping = {
         'colaborador': 'employee_name',
         'documento': 'document_name',
-        'competência': 'due_date'
+        'competência': 'competence_date',
+        'status': 'status',
+        'empresa terceira': 'responsible_company',
+        'estabelecimento': 'branch'
     }
     df_clean = df.rename(columns=column_mapping)
 
     if 'document_name' in df_clean.columns:
         df_clean = df_clean.dropna(subset=['document_name'])
 
-    standard_columns = ['employee_name', 'due_date', 'document_code', 'document_name']
+    standard_columns = [
+        'employee_name',
+        'due_date',
+        'competence_date',
+        'document_code',
+        'document_name',
+        'status',
+        'responsible_company',
+        'branch'
+    ]
     for col in standard_columns:
         if col not in df_clean.columns:
             df_clean[col] = None

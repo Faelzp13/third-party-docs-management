@@ -24,8 +24,22 @@ def parse_gt3soft(bronze_filepath: str) -> pd.DataFrame:
         7: 'document_name'
     })
 
-    final_columns = ['employee_name', 'due_date', 'document_code', 'document_name']
-    df_final = df_clean[final_columns].copy()
+    standard_columns = [
+        'employee_name',
+        'due_date',
+        'competence_date',
+        'document_code',
+        'document_name',
+        'status',
+        'responsible_company',
+        'branch'
+    ]
+
+    for col in standard_columns:
+        if col not in df_clean.columns:
+            df_clean[col] = None
+
+    df_final = df_clean[standard_columns].copy()
 
     df_final['source_system'] = 'gt3soft'
     df_final['ingestion_date'] = datetime.now()

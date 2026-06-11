@@ -57,7 +57,7 @@ def run_pipeline(base_path: str):
         all_clean_dfs.append(df_sg3)
 
     # The Great Union
-    print("\n--- 🥇 Building Gold Layer (Single Big Table) ---")
+    print("\n--- Building Gold Layer (Single Big Table) ---")
     if all_clean_dfs:
         # Stacking all DataFrames into one
         df_gold = pd.concat(all_clean_dfs, ignore_index=True)
