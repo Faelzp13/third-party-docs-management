@@ -1,5 +1,6 @@
 import pandas as pd
 from datetime import datetime
+from parsers.utils import enforce_schema
 
 def parse_sg3(bronze_filepath: str) -> pd.DataFrame:
 
@@ -21,21 +22,7 @@ def parse_sg3(bronze_filepath: str) -> pd.DataFrame:
     if 'document_name' in df_clean.columns:
         df_clean = df_clean.dropna(subset=['document_name'])
 
-    standard_columns = [
-        'employee_name',
-        'due_date',
-        'competence_date',
-        'document_code',
-        'document_name',
-        'status',
-        'responsible_company',
-        'branch'
-    ]
-    for col in standard_columns:
-        if col not in df_clean.columns:
-            df_clean[col] = None
-
-    df_final = df_clean[standard_columns].copy()
+    df_final = enforce_schema(df_clean)
 
     df_final['source_system'] = 'sg3'
     df_final['ingestion_date'] = datetime.now()

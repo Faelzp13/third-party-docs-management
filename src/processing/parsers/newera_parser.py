@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from datetime import datetime
+from parsers.utils import enforce_schema
 
 
 def parse_newera(bronze_filepath: str) -> pd.DataFrame:
@@ -27,22 +28,7 @@ def parse_newera(bronze_filepath: str) -> pd.DataFrame:
         df_clean['competence_date'] = np.where(is_competence, df_clean['coluna_s_suja'], None)
         df_clean['employee_name'] = np.where(~is_competence, df_clean['coluna_s_suja'], None)
 
-    standard_columns = [
-        'employee_name',
-        'due_date',
-        'competence_date',
-        'document_code',
-        'document_name',
-        'status',
-        'responsible_company',  # NOVA
-        'branch'  # NOVA
-    ]
-
-    for col in standard_columns:
-        if col not in df_clean.columns:
-            df_clean[col] = None
-
-    df_final = df_clean[standard_columns].copy()
+    df_final = enforce_schema(df_clean)
 
     df_final['source_system'] = 'newera'
     df_final['ingestion_date'] = datetime.now()

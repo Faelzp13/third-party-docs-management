@@ -1,9 +1,11 @@
 import pandas as pd
 from datetime import datetime
+from parsers.utils import enforce_schema
+
 
 def parse_afm(bronze_filepath: str) -> pd.DataFrame:
 
-    # read the excel file
+    # read the Excel file
     df = pd.read_excel(bronze_filepath, skiprows=15)
 
     df.columns = [str(col).strip().lower().replace(' ', '_') for col in df.columns]
@@ -19,22 +21,7 @@ def parse_afm(bronze_filepath: str) -> pd.DataFrame:
     }
     df_clean = df.rename(columns=column_mapping)
 
-    standard_columns = [
-        'employee_name',
-        'due_date',
-        'competence_date',
-        'document_code',
-        'document_name',
-        'status',
-        'responsible_company',
-        'branch'
-    ]
-
-    for col in standard_columns:
-        if col not in df_clean.columns:
-            df_clean[col] = None
-
-    df_final = df_clean[standard_columns].copy()
+    df_final = enforce_schema(df_clean)
 
     df_final['source_system'] = 'afm'
     df_final['ingestion_date'] = datetime.now()
