@@ -40,8 +40,8 @@ def parse_newera(bronze_filepath: str) -> pd.DataFrame:
 if __name__ == '__main__':
     import os
 
-    raw_file = r'C:\Users\TI Recicla\PycharmProjects\third-party-docs-management\data\01_bronze\newera\Elaboração RECICLA ENGENHARIA E GESTAO AMBIENTAL LTDA .xlsx'
-    silver_dir = r'C:\Users\TI Recicla\PycharmProjects\third-party-docs-management\data\02_silver\newera'
+    raw_file = r'C:\Users\...'
+    silver_dir = r'C:\Users\...'
     os.makedirs(silver_dir, exist_ok=True)
     silver_file = os.path.join(silver_dir, 'newera_cleaned.parquet')
 

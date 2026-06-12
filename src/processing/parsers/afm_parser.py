@@ -34,10 +34,10 @@ if __name__ == '__main__':
     import os
 
     # raw file path
-    raw_file = r'C:\Users\TI Recicla\PycharmProjects\third-party-docs-management\data\01_bronze\afm\Relatorio - Entrega de documentos - 260602114741.xlsx'
+    raw_file = r'C:\Users\...'
 
     # silver directory path
-    silver_dir = r'C:\Users\TI Recicla\PycharmProjects\third-party-docs-management\data\02_silver\afm'
+    silver_dir = r'C:\Users\...'
     os.makedirs(silver_dir, exist_ok=True)
 
     silver_file = os.path.join(silver_dir, 'afm_cleaned.parquet')

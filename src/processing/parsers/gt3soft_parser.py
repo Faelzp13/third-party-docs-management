@@ -39,10 +39,10 @@ if __name__ == '__main__':
     import os
 
     # raw file path
-    raw_file = r'C:\Users\TI Recicla\PycharmProjects\third-party-docs-management\data\01_bronze\gt3soft\20260602_164856_11674.xls'
+    raw_file = r'C:\Users\...'
 
     # silver directory path
-    silver_dir = r'C:\Users\TI Recicla\PycharmProjects\third-party-docs-management\data\02_silver\gt3soft'
+    silver_dir = r'C:\Users\...'
     os.makedirs(silver_dir, exist_ok=True)
 
     silver_file = os.path.join(silver_dir, 'gt3soft_cleaned.parquet')
